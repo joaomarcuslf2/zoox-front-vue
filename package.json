@@ -6,12 +6,16 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit"
+    "deploy": "npm run build && now && now alias"
   },
   "dependencies": {
+    "bulma": "^0.7.1",
+    "cross-cookie": "^0.0.9",
+    "cross-fetch": "^2.2.2",
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.21",
     "vue": "^2.5.17",
-    "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.1",

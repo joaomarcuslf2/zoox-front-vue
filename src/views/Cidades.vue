@@ -6,12 +6,10 @@
           <h2>Lista de Cidades</h2>
         </div>
 
-        <div class="content" v-for="filter in selectedFilters">
-          <span class="tag" v-if="!filter.fixed">
-            {{filter.value}}
-            <button class="delete is-small" v-on:click="removeFilter(filter)"></button>
-          </span>
-        </div>
+        <SelectedFilters
+          :selectedFilters=selectedFilters
+          :removeFilter=removeFilter
+        />
       </div>
       <footer class="card-footer">
         <a href="#" class="card-footer-item" v-on:click="toogleAddForm()">Adicionar</a>
@@ -28,11 +26,7 @@
       :onDelete=onSubmitDeleteCidade
     />
 
-    <div v-if="loading">
-      <figure class="image is-square is-fullwidth">
-        <img src="@/assets/loading.gif">
-      </figure>
-    </div>
+    <Loading :loading=loading />
 
     <div v-if="hadError">
       <a
@@ -67,6 +61,8 @@ import CidadeListView from '@/components/CidadeListView.vue';
 import CidadeForm from '@/components/CidadeForm.vue';
 import ErrorNotification from '@/components/ErrorNotification.vue';
 import AggregationModal from '@/components/AggregationModal.vue';
+import Loading from '@/components/Loading.vue';
+import SelectedFilters from '@/components/SelectedFilters.vue';
 
 import { getCidades, addCidade, updateCidade, deleteCidade } from '../actions';
 
@@ -82,10 +78,7 @@ export default {
       loading: true,
       showAddForm: false,
       showAggregationModal: false,
-      drop: [
-        'estadoId',
-        '_id'
-      ]
+      drop: ['estadoId', '_id'],
     };
   },
   mounted() {
@@ -102,6 +95,8 @@ export default {
     CidadeForm,
     ErrorNotification,
     AggregationModal,
+    Loading,
+    SelectedFilters,
   },
   methods: {
     resetState: function() {
@@ -148,13 +143,8 @@ export default {
       }, 2200);
     },
     onSubmitSaveCidade: function(newCidade) {
-
       this.loading = true;
-      addCidade(Object.assign(
-        {},
-        newCidade,
-        { estadoId: this.fixedFilter.value }
-      ))
+      addCidade(Object.assign({}, newCidade, { estadoId: this.fixedFilter.value }))
         .then(data => {
           this.showAddForm = false;
           return data;
@@ -164,11 +154,7 @@ export default {
     },
     onSubmitUpdateCidade: function(newCidade) {
       this.loading = true;
-      updateCidade(Object.assign(
-        {},
-        newCidade,
-        { estadoId: this.fixedFilter.value }
-      ))
+      updateCidade(Object.assign({}, newCidade, { estadoId: this.fixedFilter.value }))
         .then(data => {
           this.showAddForm = false;
           return data;
@@ -187,9 +173,11 @@ export default {
         .catch(this.handleError);
     },
     removeFilter: function({ type, value }) {
-      const newFilters = this.selectedFilters.filter(filter => {
-        return filter.type === type && filter.value !== value;
-      }).concat(this.fixedFilter);
+      const newFilters = this.selectedFilters
+        .filter(filter => {
+          return filter.type === type && filter.value !== value;
+        })
+        .concat(this.fixedFilter);
 
       this.resetState();
 

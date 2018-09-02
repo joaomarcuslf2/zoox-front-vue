@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "start": "npm run build && serve ./dist --single",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "npm run build && now && now alias"
+    "deploy": "now"
   },
   "dependencies": {
     "bulma": "^0.7.1",
@@ -14,6 +15,7 @@
     "cross-fetch": "^2.2.2",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.21",
+    "serve": "latest",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1"
   },
@@ -26,6 +28,7 @@
     "@vue/test-utils": "^1.0.0-beta.20",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^23.0.1",
+    "now": "^11.4.1",
     "vue-template-compiler": "^2.5.17"
   }
 }

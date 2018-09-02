@@ -6,12 +6,10 @@
           <h2>Lista de Estados</h2>
         </div>
 
-        <div class="content" v-for="filter in selectedFilters">
-          <span class="tag">
-            {{filter.value}}
-            <button class="delete is-small" v-on:click="removeFilter(filter)"></button>
-          </span>
-        </div>
+        <SelectedFilters
+          :selectedFilters=selectedFilters
+          :removeFilter=removeFilter
+        />
       </div>
       <footer class="card-footer">
         <a href="#" class="card-footer-item" v-on:click="toogleAddForm()">Adicionar</a>
@@ -28,11 +26,7 @@
       :onDelete=onSubmitDeleteEstado
     />
 
-    <div v-if="loading">
-      <figure class="image is-square is-fullwidth">
-        <img src="@/assets/loading.gif">
-      </figure>
-    </div>
+    <Loading :loading=loading />
 
     <div v-if="hadError">
       <a
@@ -67,6 +61,8 @@ import EstadoListView from '@/components/EstadoListView.vue';
 import EstadoForm from '@/components/EstadoForm.vue';
 import ErrorNotification from '@/components/ErrorNotification.vue';
 import AggregationModal from '@/components/AggregationModal.vue';
+import Loading from '@/components/Loading.vue';
+import SelectedFilters from '@/components/SelectedFilters.vue';
 
 import { getEstados, addEstado, updateEstado, deleteEstado } from '../actions';
 
@@ -82,9 +78,7 @@ export default {
       loading: true,
       showAddForm: false,
       showAggregationModal: false,
-      drop: [
-        "_id"
-      ]
+      drop: ['_id'],
     };
   },
   mounted() {
@@ -95,6 +89,8 @@ export default {
     EstadoForm,
     ErrorNotification,
     AggregationModal,
+    Loading,
+    SelectedFilters,
   },
   methods: {
     resetState: function() {

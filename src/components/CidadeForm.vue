@@ -30,7 +30,7 @@
 export default {
   data() {
     return {
-      nome: this.cidade.nome || ''
+      nome: this.cidade.nome || '',
     };
   },
   name: 'CidadeForm',
@@ -48,7 +48,7 @@ export default {
   methods: {
     submitData: function() {
       const newCidade = Object.assign({}, this.cidade, {
-        nome: this.nome
+        nome: this.nome,
       });
 
       return this.onSubmit(newCidade);
